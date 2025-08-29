@@ -43,8 +43,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BranchAndBoundKnapsack.cs" />
+    <Compile Include="FileHandler.cs" />
+    <Compile Include="KnapsackItem.cs" />
+    <Compile Include="KnapsackSolution.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SensitivityAnalysis.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
