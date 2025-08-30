@@ -1,5 +1,8 @@
-﻿using System;
+﻿using ConsoleApp1;
+using PacmanConsole;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -11,11 +14,9 @@ class Program
 
         while (!exit)
         {
-            Console.WriteLine("1. Solve Knapsack Problem");
-            Console.WriteLine("2. Perform Sensitivity Analysis");
-            Console.WriteLine("3. Exit");
-            Console.Write("Please choose an option: ");
-            string option = Console.ReadLine();
+            VisualEffects.ShowLoadingScreen();
+            VisualEffects.ShowPacmanMenu();
+            string option = (Console.ReadLine());
 
             switch (option)
             {
@@ -26,9 +27,89 @@ class Program
                 case "2":
                     PerformSensitivityAnalysisMenu();
                     break;
-
                 case "3":
+                    VisualEffects.ShowLoadingScreen();
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("=============================== SIMPLEX SOLVER ===============================");
+                    Console.ResetColor();
+
+                    // Objective function
+                    Console.WriteLine("\nEnter LP problem in format:");
+                    Console.WriteLine("MAX z = 8x1 + 5x2");
+                    Console.Write("Objective: ");
+                    string objInput = Console.ReadLine();
+
+                    bool isMax = objInput.Trim().ToUpper().StartsWith("MAX");
+                    string objClean = objInput.Substring(objInput.IndexOf('=') + 1).Trim();
+                    double[] objective = SimplexSolutions.ParseCoefficients(objClean);
+
+                    // Number of constraints
+                    Console.Write("\nHow many constraints? ");
+                    int m = int.Parse(Console.ReadLine());
+                    List<double[]> constraints = new List<double[]>();
+                    List<double> rhs = new List<double>();
+
+                    // Constraints input
+                    for (int i = 0; i < m; i++)
+                    {
+                        Console.Write($"Constraint {i + 1} (e.g. 2x1 + x2 <= 10): ");
+                        string cons = Console.ReadLine();
+
+                        string[] parts = cons.Split(new string[] { "<=", ">=", "=" }, StringSplitOptions.None);
+                        if (parts.Length != 2)
+                        {
+                            Console.WriteLine("Invalid constraint format. Example: 2x1 + x2 <= 10");
+                            return;
+                        }
+
+                        double[] coeffs = SimplexSolutions.ParseCoefficients(parts[0]);
+                        double b = double.Parse(parts[1], CultureInfo.InvariantCulture);
+
+                        constraints.Add(coeffs);
+                        rhs.Add(b);
+                    }
+
+                    // Print problem in readable form
+                    Console.WriteLine("\n--- Problem Entered ---");
+                    Console.WriteLine(objInput);
+                    for (int i = 0; i < m; i++)
+                        Console.WriteLine($"Constraint {i + 1}: " +
+                                          $"{string.Join(" + ", constraints[i])} <= {rhs[i]}");
+
+                    // Build canonical tableau
+                    int n = objective.Length;
+                    double[,] tableau = new double[m + 1, n + m + 1];
+
+                    // Fill objective row
+                    for (int j = 0; j < n; j++)
+                        tableau[m, j] = isMax ? -objective[j] : objective[j]; // -c for MAX
+
+                    // Fill constraints rows
+                    for (int i = 0; i < m; i++)
+                    {
+                        for (int j = 0; j < constraints[i].Length; j++)
+                            tableau[i, j] = constraints[i][j];
+                        tableau[i, n + i] = 1;          // Slack variable
+                        tableau[i, n + m] = rhs[i];     // RHS
+                    }
+
+                    // Solve using simplex
+                    SimplexSolutions.Simplex(tableau, m, n);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\n=============================== DONE ===============================");
+                    Console.ResetColor();
+                    
+                    break;
+                case "4":
                     exit = true;
+                    break;
+                case "5":
+                    VisualEffects.ShowLoadingScreen();
+                    VisualEffects.ShowPacmanMenu();
+
+                    string choice = Console.ReadLine();
+                    Console.WriteLine("You chose option: " + choice);
                     break;
 
                 default:

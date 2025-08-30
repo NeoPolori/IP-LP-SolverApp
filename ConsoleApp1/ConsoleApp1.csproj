@@ -50,6 +50,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SensitivityAnalysis.cs" />
+    <Compile Include="SimplexSolutions.cs" />
+    <Compile Include="VisualEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
