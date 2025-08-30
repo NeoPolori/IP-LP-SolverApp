@@ -56,5 +56,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="max_knapsack1.txt" />
+    <Content Include="max_knapsack2.txt" />
+    <Content Include="min_knapsack1.txt" />
+    <Content Include="unbalanced.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
