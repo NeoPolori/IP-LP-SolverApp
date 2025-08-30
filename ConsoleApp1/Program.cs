@@ -98,6 +98,7 @@ class Program
                     SimplexSolutions.Simplex(tableau, m, n);
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("\n=============================== DONE ===============================");
+                    Console.ReadKey();
                     Console.ResetColor();
                     
                     break;
