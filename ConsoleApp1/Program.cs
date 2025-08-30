@@ -14,6 +14,7 @@ class Program
 
         while (!exit)
         {
+            Console.Clear();
             VisualEffects.ShowLoadingScreen();
             VisualEffects.ShowPacmanMenu();
             string option = (Console.ReadLine());
@@ -21,10 +22,12 @@ class Program
             switch (option)
             {
                 case "1":
+                    VisualEffects.ShowLoadingScreen();
                     SolveKnapsack();
                     break;
 
                 case "2":
+                    VisualEffects.ShowLoadingScreen();
                     PerformSensitivityAnalysisMenu();
                     break;
                 case "3":
