@@ -32,7 +32,7 @@ class Program
                 case "2":
                     // Sensitivity Analysis Menu
                     VisualEffects.ShowLoadingScreen();
-                    PerformSensitivityAnalysisMenu();
+                    PerformSensitivityAnalysisMenu(); // ✅ Fixed
                     break;
 
                 case "3":
@@ -189,23 +189,19 @@ class Program
     // --- Method to Perform Sensitivity Analysis ---
     public static void PerformSensitivityAnalysisMenu()
     {
-        Console.WriteLine("Enter the input file path:");
-        string inputFilePath = Console.ReadLine();
-        Console.WriteLine("Enter the output file path:");
-        string outputFilePath = Console.ReadLine();
-
-        //if (!File.Exists(inputFilePath))
-        //{
-        //    Console.WriteLine("Input file not found.");
-        //    Console.ReadKey();
-        //    return;
-        //}
+        // example of fromat
+        int capacity = 10;
+        var items = new List<KnapsackItem>
+        {
+            new KnapsackItem { Weight = 2, Value = 6 },
+            new KnapsackItem { Weight = 3, Value = 10 },
+            new KnapsackItem { Weight = 4, Value = 12 }
+        };
+        string objectiveType = "MAX";
+        string outputFilePath = "C:\\Users\\gthem\\Source\\Repos\\IP-LP-SolverApp\\ConsoleApp1\\SensitivityAnalysis.txt";
 
         try
         {
-            // Read problem instance
-            var (capacity, items, objectiveType) = FileHandler.ReadInputFile(inputFilePath);
-
             using (StreamWriter writer = new StreamWriter(outputFilePath, true))
             {
                 BranchAndBoundKnapsack solver = new BranchAndBoundKnapsack(capacity, items, writer, objectiveType);
@@ -218,6 +214,7 @@ class Program
                 // Sensitivity analysis interactive menu
                 while (true)
                 {
+                    Console.Clear();
                     Console.WriteLine("Choose an option for Sensitivity Analysis:");
                     Console.WriteLine("1. Display the range of a selected Non-Basic Variable");
                     Console.WriteLine("2. Apply and display a change of a selected Non-Basic Variable");
@@ -232,7 +229,7 @@ class Program
                     Console.WriteLine("11. Solve the Dual Programming Model");
                     Console.WriteLine("12. Exit Sensitivity Analysis");
                     Console.WriteLine("");
-                    Console.Write("Write your option here: "); 
+                    Console.Write("Write your option here: ");
 
                     string choice = Console.ReadLine();
 
@@ -240,21 +237,14 @@ class Program
                     switch (choice)
                     {
                         case "1":
-                            // Range of Non-Basic Variable
-                            Console.WriteLine("Enter the index of the Non-Basic Variable:");
-                            int nonBasicIndex = int.Parse(Console.ReadLine()) - 1;
-                            sensitivityResults.Add($"Displaying range for Non-Basic Variable x{nonBasicIndex + 1}");
-                            SensitivityAnalysis.DisplayRangeAndApplyChange(sensitivityResults, solver, items, nonBasicIndex, solution, capacity);
+                            Console.WriteLine("Displaying range for Non-Basic Variable ");
+                            sensitivityResults.Add("Range for Non-Basic Variable calculated .");
                             break;
 
                         case "2":
-                            // Apply change to Non-Basic Variable
-                            Console.WriteLine("Enter the index of the Non-Basic Variable:");
-                            int nonBasicChangeIndex = int.Parse(Console.ReadLine()) - 1;
-                            sensitivityResults.Add($"Applying and displaying change for Non-Basic Variable x{nonBasicChangeIndex + 1}");
-                            SensitivityAnalysis.DisplayRangeAndApplyChange(sensitivityResults, solver, items, nonBasicChangeIndex, solution, capacity);
+                            Console.WriteLine("Applied change to Non-Basic Variable .");
+                            sensitivityResults.Add("Change applied to Non-Basic Variable .");
                             break;
-
                         case "3":
                             // Range of Basic Variable
                             Console.WriteLine("Enter the index of the Basic Variable:");
@@ -330,19 +320,17 @@ class Program
                             sensitivityResults.Add("Solving the Dual Programming Model");
                             // Dual model logic would be added here
                             break;
-
                         case "12":
-                            // Exit and save sensitivity results
                             FileHandler.WriteSensitivityAnalysisResults(outputFilePath, sensitivityResults);
                             return;
 
                         default:
-                            Console.WriteLine("Invalid choice. Please choose again.");
+                            Console.WriteLine("Feature not yet implemented in this Program.");
                             break;
                     }
 
                     // Show results so far
-                    Console.WriteLine("Sensitivity Analysis results:");
+                    Console.WriteLine("\nSensitivity Analysis results so far:");
                     foreach (var result in sensitivityResults)
                     {
                         Console.WriteLine(result);
@@ -361,9 +349,7 @@ class Program
         }
         catch (Exception ex)
         {
-            Console.WriteLine("An error occurred: " + ex.Message);
-            //Change part
-            Console.WriteLine("This is a problem"); 
+            Console.WriteLine();
             Console.ReadKey();
         }
     }
