@@ -187,7 +187,7 @@ class Program
     }
 
     // --- Method to Perform Sensitivity Analysis ---
-    static void PerformSensitivityAnalysisMenu()
+    public static void PerformSensitivityAnalysisMenu()
     {
         Console.WriteLine("Enter the input file path:");
         string inputFilePath = Console.ReadLine();
@@ -231,6 +231,8 @@ class Program
                     Console.WriteLine("10. Apply Duality to the programming model");
                     Console.WriteLine("11. Solve the Dual Programming Model");
                     Console.WriteLine("12. Exit Sensitivity Analysis");
+                    Console.WriteLine("");
+                    Console.Write("Write your option here: "); 
 
                     string choice = Console.ReadLine();
 
