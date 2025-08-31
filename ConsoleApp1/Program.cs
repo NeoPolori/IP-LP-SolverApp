@@ -197,6 +197,7 @@ class Program
         if (!File.Exists(inputFilePath))
         {
             Console.WriteLine("Input file not found.");
+            Console.ReadKey();
             return;
         }
 
