@@ -362,6 +362,9 @@ class Program
         catch (Exception ex)
         {
             Console.WriteLine("An error occurred: " + ex.Message);
+            //Change part
+            Console.WriteLine("This is a problem"); 
+            Console.ReadKey();
         }
     }
 }
