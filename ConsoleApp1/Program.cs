@@ -194,12 +194,12 @@ class Program
         Console.WriteLine("Enter the output file path:");
         string outputFilePath = Console.ReadLine();
 
-        if (!File.Exists(inputFilePath))
-        {
-            Console.WriteLine("Input file not found.");
-            Console.ReadKey();
-            return;
-        }
+        //if (!File.Exists(inputFilePath))
+        //{
+        //    Console.WriteLine("Input file not found.");
+        //    Console.ReadKey();
+        //    return;
+        //}
 
         try
         {
